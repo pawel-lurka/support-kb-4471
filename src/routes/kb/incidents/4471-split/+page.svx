@@ -4,7 +4,7 @@ title: '#4471 split · three problems, three tickets'
 owner: support desk
 status: open
 reviewed: 2026-10-28
-signature: pawel-lurka
+signature: 'v1.eyJzdWIiOiI2NDc3IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMxODcxMjgsImV4cCI6MTc5MzI3MzUyOH0.f9f-3K9OXHnru7XBGf3WMhzGG89wNxzQcBO_gk8aK8U'
 ---
 
 <script>
