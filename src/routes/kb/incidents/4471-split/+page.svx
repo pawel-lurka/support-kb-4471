@@ -32,9 +32,10 @@ The queued parser fix does not close #4471. The form hint and the one-day moves 
 
 <ProblemTable ticket={4471} {tickets} />
 
-Each report is placed by its tenant and channel (`causes.ts`), except the reports the desk
-already read as a one-day move (`desk-notes.json`). Those are kept apart. Reports that came twice
-in the export are counted once.
+Counts follow the desk's own view (`causes.ts`): each report is counted under the cause its tenant
+and channel file it under. The reports the desk read as a one-day move (`desk-notes.json`) are a
+problem of their own, but stay counted where they're filed and are footnoted. Reports that came
+twice in the export are counted once.
 
 ## The three problems
 
@@ -42,7 +43,7 @@ in the export are counted once.
 
 It covers <ProblemCount ticket={4471} problem="parser" /> reports. Every tenant on file writes the day first.
 The shared parser reads month first, so a booking for 7 April goes out for 4 July. This is the
-fix that is already queued, and it closes this row only.
+fix that is already queued. It closes the swapped dates in this row, not the one-day moves filed here.
 
 ### `hint`: booking-v3 prints `MM/DD/YYYY` and reads day first
 
@@ -55,8 +56,8 @@ reading must change.
 
 It covers <ProblemCount ticket={4471} problem="one-day" /> reports. The date is not swapped. It moves by a
 day: "Client in Lisbon got Tuesday. Client in Toronto got Monday. Same meeting." That points at
-time zones, not date order. The desk already noted these reports, then filed them under `parser`
-by tenant. The parser fix will not move them back.
+time zones, not date order. The desk already noted these reports, and files them under `parser`
+by tenant, so they are also in that count. The parser fix will not resolve them.
 
 ## How #4471 looked
 

@@ -5,11 +5,11 @@
   import { tenantOf } from '#lib/kb/locales';
   import { groupByProblem, type Problem } from '#lib/kb/problems';
 
-  // One number for a sentence: how many reports in `ticket` belong to `problem`.
+  // One number for a sentence: how many reports in `ticket` the desk counts for `problem`.
   let { ticket, problem }: { ticket: number; problem: Problem } = $props();
 
   const n = $derived(
-    groupByProblem(reports as Report[], ticket, tenantOf, notes.oneDayMove).find((g) => g.problem === problem)?.reports.length ?? 0,
+    groupByProblem(reports as Report[], ticket, tenantOf, notes.oneDayMove).find((g) => g.problem === problem)?.reports ?? 0,
   );
 </script>
 

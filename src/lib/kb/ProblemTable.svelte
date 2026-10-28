@@ -3,13 +3,13 @@
   import notes from '#lib/data/desk-notes.json';
   import { type Report } from '#lib/kb/causes';
   import { tenantOf } from '#lib/kb/locales';
-  import { groupByProblem, type Problem } from '#lib/kb/problems';
+  import { groupByProblem, totalReports, type Problem } from '#lib/kb/problems';
 
   // tickets: problem → link to the ticket filed for it.
   let { ticket, tickets = {} }: { ticket: number; tickets?: Partial<Record<Problem, string>> } = $props();
 
   const groups = $derived(groupByProblem(reports as Report[], ticket, tenantOf, notes.oneDayMove));
-  const total = $derived(groups.reduce((n, g) => n + g.reports.length, 0));
+  const total = $derived(totalReports(reports as Report[], ticket));
 </script>
 
 <p class="sum">
@@ -24,9 +24,9 @@
   </thead>
   <tbody>
     {#each groups as g (g.problem)}
-      <tr>
+      <tr class:footnote={g.filedUnder}>
         <td><code>{g.problem}</code></td>
-        <td>{g.reports.length}</td>
+        <td>{g.reports}{g.filedUnder ? '*' : ''}</td>
         <td>{g.tenants}</td>
         <td>{g.firstSeen} → {g.lastSeen}</td>
         <td>
@@ -37,7 +37,13 @@
   </tbody>
 </table>
 
+{#each groups.filter((g) => g.filedUnder) as g (g.problem)}
+  <p class="note">* {g.reports} reports read as a one-day move; counted where they're filed, under <code>{g.filedUnder}</code>.</p>
+{/each}
+
 <style>
   .sum { font-size: 1.1rem; }
   .none { color: var(--warn); font-weight: 600; }
+  .footnote td { color: var(--muted); }
+  .note { color: var(--muted); font-size: 0.85em; }
 </style>
