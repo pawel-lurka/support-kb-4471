@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../../_app/immutable/entry/start.BE4ydmV-.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/DnoyNMba.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/sxwCciAw.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/DXhvxdpI.js" rel="modulepreload">
+		<link href="../../_app/immutable/entry/app.BeAVJD2_.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/4HIIzLmj.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/B4WlwwdY.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CGyox8To.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/gCpT5-Oq.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/0.BIUIeQ3I.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/BHsyMl1J.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/5.B5I4VLud.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/BNqjXeOv.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/BMg7KjJ0.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/BlPlYdM-.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CLGaWlpp.js" rel="modulepreload">
+		<!--e2jw2j--><!----><title>#4471 split · three problems, three tickets · support kb</title>
+		<link href="../../_app/immutable/assets/runbook.BhhgOc_n.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/Callout.yLErXQDM.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/CauseTable.DuKfINX_.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.DWRzXUdj.css" rel="stylesheet">
+  </head>
+  <body>
+    <div style="display: contents"><!--[--><!--[0--><!--[--><!--[--><div class="kb svelte-e2jw2j"><header><a class="crumb svelte-e2jw2j" href="/kb">support desk · kb</a> <h1 class="svelte-e2jw2j">#4471 split · three problems, three tickets</h1> <p class="meta svelte-e2jw2j"><span>owner <b>support desk</b></span> <span class="status open svelte-e2jw2j">open</span> <span class="svelte-e2jw2j">reviewed 2026-10-28 · 0 days ago</span></p></header> <!--[-1--><!--]--> <main><p><a href="/kb/incidents/4471">#4471</a> is marked known: one issue, one fix queued. Its reports show three
+problems. One fix closes one of them. The other two had no ticket, so this page files one each.</p> <aside class="warn svelte-17bri61"><!---->The queued parser fix does not close #4471. The form hint and the one-day moves stay broken after it ships.<!----></aside><!----> <h2>The split</h2> <p class="sum svelte-1op6c6"><strong>412</strong> reports in #4471 · <strong>3</strong> problems</p> <table><thead><tr><th>problem</th><th>reports</th><th>tenants</th><th>seen</th><th>ticket</th></tr></thead><tbody><!--[--><tr><td><code>parser</code></td><td>374</td><td>11</td><td>2026-04-01 → 2026-10-04</td><td><!--[0--><a href="https://github.com/pawel-lurka/support-kb-4471/issues/1">#1</a><!--]--></td></tr><tr><td><code>hint</code></td><td>33</td><td>3</td><td>2026-04-17 → 2026-09-22</td><td><!--[0--><a href="https://github.com/pawel-lurka/support-kb-4471/issues/2">#2</a><!--]--></td></tr><tr><td><code>one-day</code></td><td>5</td><td>5</td><td>2026-04-02 → 2026-10-04</td><td><!--[0--><a href="https://github.com/pawel-lurka/support-kb-4471/issues/3">#3</a><!--]--></td></tr><!--]--></tbody></table><!----> <p>Each report is placed by its tenant and channel (<code>causes.ts</code>), except the reports the desk
+already read as a one-day move (<code>desk-notes.json</code>). Those are kept apart. Reports that came twice
+in the export are counted once.</p> <h2>The three problems</h2> <h3><code>parser</code>: the shared parser reads dates month first</h3> <p>It covers <strong>374</strong><!----> reports. Every tenant on file writes the day first.
+The shared parser reads month first, so a booking for 7 April goes out for 4 July. This is the
+fix that is already queued, and it closes this row only.</p> <h3><code>hint</code>: booking-v3 prints <code>MM/DD/YYYY</code> and reads day first</h3> <p>It covers <strong>33</strong><!----> reports. All of them came through the booking form, at the
+tenants that run booking-v3. The form tells people to type the month first, then reads what they
+typed the tenant’s way, day first. The parser fix does not touch this form. The hint or the
+reading must change.</p> <h3><code>one-day</code>: the date moves by one day</h3> <p>It covers <strong>5</strong><!----> reports. The date is not swapped. It moves by a
+day: “Client in Lisbon got Tuesday. Client in Toronto got Monday. Same meeting.” That points at
+time zones, not date order. The desk already noted these reports, then filed them under <code>parser</code> by tenant. The parser fix will not move them back.</p> <h2>How #4471 looked</h2> <p>The table on the incident page puts every report under one of two causes:</p> <p class="sum svelte-12oyimm"><strong>412</strong> reports merged into #4471 · <strong>2</strong> causes</p> <table><thead><tr><th>cause</th><th>reports</th><th>tagged as</th><th>tenants</th><th>seen</th><th></th></tr></thead><tbody><!--[--><tr class="svelte-12oyimm"><td class="svelte-12oyimm"><code>parser</code></td><td class="svelte-12oyimm">379</td><td class="tags svelte-12oyimm">parser ×356 · hint ×23</td><td class="svelte-12oyimm">11</td><td class="svelte-12oyimm">2026-04-01 → 2026-10-04</td><td class="svelte-12oyimm">#4471</td></tr><tr class="svelte-12oyimm wrong"><td class="svelte-12oyimm"><code>hint</code></td><td class="svelte-12oyimm">33</td><td class="tags svelte-12oyimm">hint ×18 · parser ×15</td><td class="svelte-12oyimm">3</td><td class="svelte-12oyimm">2026-04-17 → 2026-09-22</td><td class="svelte-12oyimm">not this ticket — no ticket of its own</td></tr><!--]--></tbody></table> <!--[--><!--[0--><p class="note svelte-12oyimm">5 reports read as a one-day move; filed under <code>parser</code> by tenant.</p><!--]--><!--[-1--><!--]--><!--]--><!----> <h2>Lessons</h2> <ul><li>Merging on subject alone (<a href="/kb/decisions/0001-dedupe-by-subject">decision 0001</a>) put three problems behind one subject family. A count tells you how loud a ticket is, not how many bugs it holds.</li> <li>Read the reports the desk itself marked as odd before you call a ticket known.</li></ul> <!--[0--><p class="stamp svelte-1280m42">desk ref <b class="svelte-1280m42">DR-Q224-5X4G</b></p><!--]--><!----><!----></main> <footer class="svelte-e2jw2j">Pages are written by people. Tables and charts are built from data at render time.</footer></div><!--]--><!----><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
+			
+			<script>
+				{
+					__sveltekit_1ef8cbd = {
+						base: new URL("../..", location).pathname.slice(0, -1)
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.BE4ydmV-.js"),
+						import("../../_app/immutable/entry/app.BeAVJD2_.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data: [null,null],
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

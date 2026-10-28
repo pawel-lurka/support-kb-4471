@@ -1,0 +1,72 @@
+---
+layout: runbook
+title: '#4471 split · three problems, three tickets'
+owner: support desk
+status: open
+reviewed: 2026-10-28
+signature: pawel-lurka
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import ProblemCount from '#lib/kb/ProblemCount.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const tickets = {
+    parser: 'https://github.com/pawel-lurka/support-kb-4471/issues/1',
+    hint: 'https://github.com/pawel-lurka/support-kb-4471/issues/2',
+    'one-day': 'https://github.com/pawel-lurka/support-kb-4471/issues/3',
+  };
+</script>
+
+[#4471](/kb/incidents/4471) is marked known: one issue, one fix queued. Its reports show three
+problems. One fix closes one of them. The other two had no ticket, so this page files one each.
+
+<Callout kind="warn">
+The queued parser fix does not close #4471. The form hint and the one-day moves stay broken after it ships.
+</Callout>
+
+## The split
+
+<ProblemTable ticket={4471} {tickets} />
+
+Each report is placed by its tenant and channel (`causes.ts`), except the reports the desk
+already read as a one-day move (`desk-notes.json`). Those are kept apart. Reports that came twice
+in the export are counted once.
+
+## The three problems
+
+### `parser`: the shared parser reads dates month first
+
+It covers <ProblemCount ticket={4471} problem="parser" /> reports. Every tenant on file writes the day first.
+The shared parser reads month first, so a booking for 7 April goes out for 4 July. This is the
+fix that is already queued, and it closes this row only.
+
+### `hint`: booking-v3 prints `MM/DD/YYYY` and reads day first
+
+It covers <ProblemCount ticket={4471} problem="hint" /> reports. All of them came through the booking form, at the
+tenants that run booking-v3. The form tells people to type the month first, then reads what they
+typed the tenant's way, day first. The parser fix does not touch this form. The hint or the
+reading must change.
+
+### `one-day`: the date moves by one day
+
+It covers <ProblemCount ticket={4471} problem="one-day" /> reports. The date is not swapped. It moves by a
+day: "Client in Lisbon got Tuesday. Client in Toronto got Monday. Same meeting." That points at
+time zones, not date order. The desk already noted these reports, then filed them under `parser`
+by tenant. The parser fix will not move them back.
+
+## How #4471 looked
+
+The table on the incident page puts every report under one of two causes:
+
+<CauseTable ticket={4471} />
+
+## Lessons
+
+- Merging on subject alone ([decision 0001](/kb/decisions/0001-dedupe-by-subject)) put three problems behind one subject family. A count tells you how loud a ticket is, not how many bugs it holds.
+- Read the reports the desk itself marked as odd before you call a ticket known.
+
+<RenderStamp {signature} />
