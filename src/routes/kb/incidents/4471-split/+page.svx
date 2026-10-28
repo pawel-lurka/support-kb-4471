@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 split · three problems, three tickets'
 owner: support desk
-status: open
+status: living
 reviewed: 2026-10-28
 signature: 'v1.eyJzdWIiOiI2NDc3IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMxODcxMjgsImV4cCI6MTc5MzI3MzUyOH0.f9f-3K9OXHnru7XBGf3WMhzGG89wNxzQcBO_gk8aK8U'
 ---
@@ -21,11 +21,21 @@ signature: 'v1.eyJzdWIiOiI2NDc3IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpY
   };
 </script>
 
-[#4471](/kb/incidents/4471) is marked known: one issue, one fix queued. Its reports show three
-problems. One fix closes one of them. The other two had no ticket, so this page files one each.
+[#4471](/kb/incidents/4471) was marked known: one issue, one fix queued. Its reports show three
+problems, so this page files one ticket each.
+
+## Where they stand
+
+Engineering closed #4471 on 5 October:
+
+| problem | ticket | state | why |
+| --- | --- | --- | --- |
+| `parser` | [#1](https://github.com/pawel-lurka/support-kb-4471/issues/1) | closed · fixed | `fix(dates): parse dd/mm for eu locales` |
+| `hint` | [#2](https://github.com/pawel-lurka/support-kb-4471/issues/2) | closed · won't fix | booking-v3 form retired |
+| `one-day` | [#3](https://github.com/pawel-lurka/support-kb-4471/issues/3) | open | not in the #4471 update |
 
 <Callout kind="warn">
-The queued parser fix does not close #4471. The form hint and the one-day moves stay broken after it ships.
+Closing #4471 did not close the one-day moves. The parser fix reads dd/mm; it does not touch time zones. Keep #3 open until engineering answers it.
 </Callout>
 
 ## The split
@@ -42,15 +52,15 @@ twice in the export are counted once.
 ### `parser`: the shared parser reads dates month first
 
 It covers <ProblemCount ticket={4471} problem="parser" /> reports. Every tenant on file writes the day first.
-The shared parser reads month first, so a booking for 7 April goes out for 4 July. This is the
-fix that is already queued. It closes the swapped dates in this row, not the one-day moves filed here.
+The shared parser reads month first, so a booking for 7 April goes out for 4 July. This was the
+fix queued under #4471, now shipped. It closes the swapped dates in this row, not the one-day moves filed here.
 
 ### `hint`: booking-v3 prints `MM/DD/YYYY` and reads day first
 
 It covers <ProblemCount ticket={4471} problem="hint" /> reports. All of them came through the booking form, at the
 tenants that run booking-v3. The form tells people to type the month first, then reads what they
-typed the tenant's way, day first. The parser fix does not touch this form. The hint or the
-reading must change.
+typed the tenant's way, day first. The parser fix does not touch this form. Engineering will not
+fix it: booking-v3 is retired.
 
 ### `one-day`: the date moves by one day
 
